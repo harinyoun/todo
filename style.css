@@ -1,7 +1,7 @@
 body {
     font-family: 'Baloo', sans-serif;
     background-color: #ffc7c7;
-    color: #333;
+    color: rgb(0, 0, 0)fff;
     text-align: left;
     margin: 0;
     padding: 20px;
@@ -30,11 +30,18 @@ body {
 
 #current-day {
     text-align: center;
+    padding: 10px;
+    margin-bottom: 20px; /* Add space below the header */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #fadede; /* Light pink background */
+    color: #fff9f9;
+    font-size: 24px; /* Adjust font size as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
 }
 
 .nav__cat {
     display: flex;
-    justify-content: center;
+justify-content: center;
 }
 
 ul {
@@ -43,6 +50,16 @@ ul {
     flex-direction: column;  
     margin: 0;
     padding: 0;
+}
+
+.school__list, #schoolTaskList, #groceryTaskList, #otherTaskList {
+    border: 2px solid #f1cfcf; /* Border added here */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .school__list {
@@ -91,11 +108,11 @@ ul {
 .popup-footer input[type="text"],
 .popup-footer button {
     margin: 5px 0; /* Adds margin for spacing */
-    width: 80%; /* Adjust width as needed */
+    width: 50%; /* Adjust width as needed */
 }
 
 .close {
-    color: #aaaaaa;
+    color: #fffdfd;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -138,9 +155,9 @@ ul {
 }
 
 .flex-container {
-    width: 100%; /* or any width you prefer */
+    width: 50%; /* or any width you prefer */
     position: absolute;
     /* Removed flex-direction: column; because you want items side by side */
-    align-items: flex-start; /* This aligns the items to the start of the cross axis, remove if you want them centered */
+    align-items: center; /* This aligns the items to the start of the cross axis, remove if you want them centered */
     justify-content: center; /* This will center the children */
 }
