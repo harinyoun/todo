@@ -123,14 +123,15 @@ ul {
 
 .main-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This will take the full height of the viewport */
     width: 100%;
 }
 
 .flex-container {
-    display: flex;
-    flex-direction: column; /* Stack vertically if that's the intention */
-    align-items: center; /* Center children horizontally */
-    width: 100%;
+    width: 80%; /* or any width you prefer */
+    /* Removed flex-direction: column; because you want items side by side */
+    align-items: flex-start; /* This aligns the items to the start of the cross axis, remove if you want them centered */
+    justify-content: center; /* This will center the children */
 }
