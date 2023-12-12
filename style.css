@@ -6,8 +6,9 @@ body {
     margin: 0;
     padding: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
+    margin: 0;
 }
 
 .popup-box {
@@ -33,10 +34,15 @@ body {
 
 .nav__cat {
     display: flex;
+    justify-content: center;
 }
 
 ul {
     list-style-type: none;
+    display: flex;
+    flex-direction: column;  
+    margin: 0;
+    padding: 0;
 }
 
 .school__list {
@@ -106,10 +112,12 @@ ul {
 
 
 .spotify-container {
+
     display: flex;
     justify-content: flex-start; /* Aligns to the left */
-    padding-left: 20px; /* Adjust as needed */
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
 }
 
 .spotify-embed {
@@ -130,7 +138,8 @@ ul {
 }
 
 .flex-container {
-    width: 80%; /* or any width you prefer */
+    width: 100%; /* or any width you prefer */
+    position: absolute;
     /* Removed flex-direction: column; because you want items side by side */
     align-items: flex-start; /* This aligns the items to the start of the cross axis, remove if you want them centered */
     justify-content: center; /* This will center the children */
