@@ -38,7 +38,8 @@
                                     <button onclick="addNewCategory()">Add</button>
                             </ul>
                         </nav>
-
+                        
+                        
                         <section class="school__list">
                             <label><input type="checkbox" name="option1" value="Option1"> Option 1</label>
                             <label><input type="checkbox" name="option2" value="Option2"> Option 2</label>
@@ -48,7 +49,13 @@
                 </main>
             </div>
         </div>
-
+        <div class="centered-notes-container">
+            <div class="notes-section">
+                <h2>Notes</h2>
+                <textarea id="notesArea" placeholder="Enter your notes here..."></textarea>
+                <button onclick="saveNotes()">Save Notes</button>
+            </div>
+        </div>
         <!-- Popup for School -->
         <div id="popup1" class="popup">
             <div class="popup-content">
@@ -211,44 +218,46 @@
     }
 
     function addNewCategory() {
-    var categoryName = document.getElementById('newCategoryName').value;
-    if (categoryName.trim() !== '') {
-        // Create new nav item
-        var newNavItem = document.createElement('li');
-        var newNavLink = document.createElement('a');
-        newNavLink.href = '#popup' + categoryName;
-        newNavLink.classList.add('popup-box');
-        newNavLink.textContent = categoryName;
-        newNavItem.appendChild(newNavLink);
+            var categoryName = document.getElementById('newCategoryName').value;
+            if (categoryName.trim() !== '') {
+                // Create new nav item
+                var newNavItem = document.createElement('li');
+                var newNavLink = document.createElement('a');
+                newNavLink.href = '#popup' + categoryName;
+                newNavLink.classList.add('popup-box');
+                newNavLink.textContent = categoryName;
+                newNavItem.appendChild(newNavLink);
 
-        // Insert the new category before the add category section
-        var addCategorySection = document.querySelector('.nav__cat .add-category');
-        addCategorySection.parentNode.insertBefore(newNavItem, addCategorySection);
+                // Insert the new category before the add category section
+                var addCategorySection = document.querySelector('.nav__cat .add-category');
+                addCategorySection.parentNode.insertBefore(newNavItem, addCategorySection);
 
-        // Create new popup for the category
-        var newPopup = document.createElement('div');
-        newPopup.id = 'popup' + categoryName;
-        newPopup.classList.add('popup');
-        newPopup.innerHTML = `<div class="popup-content">
-                                  <span class="close">&times;</span>
-                                  <ul id="${categoryName}TaskList">
-                                      <!-- Tasks will be added here -->
-                                  </ul>
-                                  <div class="popup-footer">
-                                      <input type="text" id="new${categoryName}Task" placeholder="New Task">
-                                      <button onclick="addTaskToGrocery('${categoryName}')">Add Task</button>
-                                  </div>
-                              </div>`;
+                // Create new popup for the category
+                var newPopup = document.createElement('div');
+                newPopup.id = 'popup' + categoryName;
+                newPopup.classList.add('popup');
+                newPopup.innerHTML = `
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <ul id="${categoryName}TaskList" class="task-list">
+            <!-- Tasks will be added here -->
+        </ul>
+        <div class="popup-footer">
+            <input type="text" id="new${categoryName}Task" placeholder="New Task">
+            <button onclick="addTask('${categoryName}')">Add Task</button>
+        </div>
+    </div>`;
 
-        document.body.appendChild(newPopup);
+                document.body.appendChild(newPopup);
 
-        // Reset the new category name input
-        document.getElementById('newCategoryName').value = '';
+                // Reset the new category name input
+                document.getElementById('newCategoryName').value = '';
 
-        // Add event listeners for the new popup
-        addPopupEventListeners();
-    }
-}
+                // Add event listeners for the new popup and link
+                addPopupEventListenersForElement(newNavLink);
+                addPopupEventListenersForElement(newPopup.querySelector('.close'));
+            }
+        }
 
 function addTaskToGrocery(categoryName) {
     var taskInput = document.getElementById('new' + categoryName + 'Task');
@@ -278,56 +287,68 @@ function addTaskToGrocery(categoryName) {
 
 
 function addTask(categoryName) {
-    var taskInput = document.getElementById('new' + categoryName + 'Task');
-    var task = taskInput.value;
-    if (task.trim() !== '') {
-        // Add the task to the list
-        var li = document.createElement('li');
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                li.style.textDecoration = 'line-through';
-            } else {
-                li.style.textDecoration = 'none';
-            }
-        });
+            var taskInput = document.getElementById('new' + categoryName + 'Task');
+            var task = taskInput.value;
+            if (task.trim() !== '') {
+                var li = document.createElement('li');
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        li.style.textDecoration = 'line-through';
+                    } else {
+                        li.style.textDecoration = 'none';
+                    }
+                });
 
-        li.appendChild(checkbox);
-        var text = document.createTextNode(' ' + task);
-        li.appendChild(text);
-        document.getElementById(categoryName + 'TaskList').appendChild(li);
-        taskInput.value = ''; // Clear the input
-    }
-}
+                li.appendChild(checkbox);
+                var text = document.createTextNode(' ' + task);
+                li.appendChild(text);
+                document.getElementById(categoryName + 'TaskList').appendChild(li);
+                taskInput.value = ''; // Clear the input
+            }
+        }
+
+function addPopupEventListenersForElement(element) {
+                if (element.classList.contains('popup-box')) {
+                    element.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        var popupId = this.getAttribute('href').substring(1);
+                        var popup = document.getElementById(popupId);
+                        if (popup) {
+                            popup.style.display = 'block';
+                        }
+                    });
+                } else if (element.classList.contains('close')) {
+                    element.addEventListener('click', function() {
+                        var popup = this.closest('.popup');
+                        if (popup) {
+                            popup.style.display = 'none';
+                        }
+                    });
+                }
+            }
+
+addPopupEventListeners();
 
 function addPopupEventListeners() {
-    // Function to handle closing of popups
-    var closeButtons = document.querySelectorAll('.popup .close');
-    closeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var popup = this.closest('.popup');
-            if (popup) {
-                popup.style.display = 'none';
-            }
-        });
+    var popupLinks = document.querySelectorAll('.popup-box');
+    popupLinks.forEach(function(link) {
+        addPopupEventListenersForElement(link);
     });
 
-    // Close the popup when clicking outside of it
+    var closeButtons = document.querySelectorAll('.popup .close');
+    closeButtons.forEach(function(button) {
+        addPopupEventListenersForElement(button);
+    });
+
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('popup')) {
             event.target.style.display = 'none';
         }
     });
 }
-
-// Call this function initially to set up event listeners
-addPopupEventListeners();
-
-
-
-
-
+;
         </script>
     </body>
     </html>
