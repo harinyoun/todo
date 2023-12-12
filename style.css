@@ -133,7 +133,7 @@ ul {
     bottom: 5%;
     margin: auto; /* This centers the element */
     width: 100%;
-    z-index: 1;
+
     
 }
 
@@ -270,7 +270,6 @@ body, html {
     min-width: 100%;
     min-height: 100%;
     background: rgba(0, 0, 0, 0.5); /* Adjust color and opacity as needed */
-    z-index: 1; /* Overlay above video, but below content */
 }
 
 li {
@@ -323,11 +322,11 @@ li {
     justify-content: center;
     align-items: center;
     position: fixed; /* Fixed position to stay above other elements */
-    top: 80px;
+    top: 400px;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: 2; /* Ensure it's above other content */
+    height: 20%;
+    
     
 }
 
