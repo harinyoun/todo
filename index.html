@@ -11,7 +11,7 @@
     <body>
         <div class="spotify-container">
             <div class="spotify-embed">
-                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="350" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
         </div>
 
@@ -26,7 +26,9 @@
                         <ul>
                             <li><a href="#popup1" class="popup-box">School</a></li>
                             <li><a href="#popup2" class="popup-box">Grocery</a></li>
-                            <li><a href="#popup3" class="popup-box">Other</a></li>
+                            <li class="add-category">
+                                <input type="text" id="newCategoryName" placeholder="New Category">
+                                <button onclick="addNewCategory()">Add</button>
                         </ul>
                     </nav>
 
@@ -197,6 +199,92 @@
             document.getElementById('newOtherTask').value = ''; // Clear the input
         }
     }
+
+    function addNewCategory() {
+    var categoryName = document.getElementById('newCategoryName').value;
+    if (categoryName.trim() !== '') {
+        // Create new nav item
+        var newNavItem = document.createElement('li');
+        var newNavLink = document.createElement('a');
+        newNavLink.href = '#popup' + categoryName;
+        newNavLink.classList.add('popup-box');
+        newNavLink.textContent = categoryName;
+        newNavItem.appendChild(newNavLink);
+        document.querySelector('.nav__cat ul').appendChild(newNavItem);
+
+        // Create new popup for the category
+        var newPopup = document.createElement('div');
+        newPopup.id = 'popup' + categoryName;
+        newPopup.classList.add('popup');
+        newPopup.innerHTML = `<div class="popup-content">
+                                  <span class="close">&times;</span>
+                                  <ul id="${categoryName}TaskList">
+                                      <!-- Tasks will be added here -->
+                                  </ul>
+                                  <div class="popup-footer">
+                                      <input type="text" id="new${categoryName}Task" placeholder="New Task">
+                                      <button onclick="addTask('${categoryName}')">Add Task</button>
+                                  </div>
+                              </div>`;
+
+        document.body.appendChild(newPopup);
+
+        // Reset the new category name input
+        document.getElementById('newCategoryName').value = '';
+
+        // Add event listeners for the new popup
+        addPopupEventListeners();
+    }
+}
+
+function addTask(categoryName) {
+    var taskInput = document.getElementById('new' + categoryName + 'Task');
+    var task = taskInput.value;
+    if (task.trim() !== '') {
+        // Add the task to the list
+        var li = document.createElement('li');
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                li.style.textDecoration = 'line-through';
+            } else {
+                li.style.textDecoration = 'none';
+            }
+        });
+
+        li.appendChild(checkbox);
+        var text = document.createTextNode(' ' + task);
+        li.appendChild(text);
+        document.getElementById(categoryName + 'TaskList').appendChild(li);
+        taskInput.value = ''; // Clear the input
+    }
+}
+
+function addPopupEventListeners() {
+    // Function to handle closing of popups
+    var closeButtons = document.querySelectorAll('.popup .close');
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var popup = this.closest('.popup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        });
+    });
+
+    // Close the popup when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('popup')) {
+            event.target.style.display = 'none';
+        }
+    });
+}
+
+// Call this function initially to set up event listeners
+addPopupEventListeners();
+
+
 
 
 
