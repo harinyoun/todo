@@ -151,7 +151,7 @@ ul {
 }
 
 .flex-container {
-    border: 4px solid rgb(238, 224, 144);
+    border: 4px solid rgb(255, 255, 255);
     border-radius: 10px;
     padding: 20px;
     margin-top: 0;
@@ -161,6 +161,13 @@ ul {
     align-items: center; /* This aligns the items to the start of the cross axis, remove if you want them centered */
     justify-content: center; /* This will center the children */
 }
+
+.top-centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 button {
     display: inline-block;
@@ -212,22 +219,31 @@ button {
 }
 
 input {
-    border: 3px solid #000;
-    border-radius: 10px;
-    height: 50px;
-    line-height: normal;
-    color: #282828;
-    display: block;
-    width: 100%;
     box-sizing: border-box;
-    user-select: auto;
-    font-size: 16px;
-    padding: 0 6px;
-    padding-left: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    vertical-align: baseline;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: .16px;
+    border-radius: 0;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #8d8d8d;
+    background-color: #f4f4f4;
+    padding: 0 16px;
+    color: #161616;
+    transition: background-color 70ms cubic-bezier(.2,0,.38,.9),outline 70ms cubic-bezier(.2,0,.38,.9);  
     :focus{
-        border: 3px solid #5551ff;
+        outline: 2px solid #0f62fe;
+        outline-offset: -2px;
     }
-}
+
+}   
+
 
 #myVideo {
     position: fixed;
