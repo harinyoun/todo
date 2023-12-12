@@ -9,36 +9,44 @@
     </head>
     
     <body>
+        <video autoplay muted loop id="myVideo">
+            <source src="Untitled design.mp4" type="video/mp4">
+
+        </video>
+
+
         <div class="spotify-container">
             <div class="spotify-embed">
-                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="350" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe src="https://open.spotify.com/embed/playlist/0T8H3grjBsMHDJqr7ELcuS" width="350" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
         </div>
 
-        <div class="flex-container">
-            <main>
-                <header>
-                    <h1 id="current-day"></h1>
-                </header>
-                
-           
-                    <nav class="nav__cat">
-                        <ul>
-                            <li><a href="#popup1" class="popup-box">School</a></li>
-                            <li><a href="#popup2" class="popup-box">Grocery</a></li>
-                            <li class="add-category">
-                                <input type="text" id="newCategoryName" placeholder="New Category">
-                                <button onclick="addNewCategory()">Add</button>
-                        </ul>
-                    </nav>
+        <div class="top-centered-container">
+            <div class="flex-container">
+                <main>
+                    <header>
+                        <h1 id="current-day"></h1>
+                    </header>
+                    
 
-                    <section class="school__list">
-                        <label><input type="checkbox" name="option1" value="Option1"> Option 1</label>
-                        <label><input type="checkbox" name="option2" value="Option2"> Option 2</label>
-                        <label><input type="checkbox" name="option3" value="Option3"> Option 3</label>
-                    </section>
-                </div>
-            </main>
+                        <nav class="nav__cat">
+                            <ul>
+                                <li><a href="#popup1" class="popup-box">School</a></li>
+                                <li><a href="#popup2" class="popup-box">Grocery</a></li>
+                                <li class="add-category">
+                                    <input type="text" id="newCategoryName" placeholder="New Category">
+                                    <button onclick="addNewCategory()">Add</button>
+                            </ul>
+                        </nav>
+
+                        <section class="school__list">
+                            <label><input type="checkbox" name="option1" value="Option1"> Option 1</label>
+                            <label><input type="checkbox" name="option2" value="Option2"> Option 2</label>
+                            <label><input type="checkbox" name="option3" value="Option3"> Option 3</label>
+                        </section>
+                    </div>
+                </main>
+            </div>
         </div>
 
         <!-- Popup for School -->
@@ -90,6 +98,8 @@
             document.addEventListener('DOMContentLoaded', function() {
         // Function to update the day
         updateDay();
+
+        
 
         // Function to handle opening of popups
         var popupLinks = document.querySelectorAll('.popup-box');
@@ -210,7 +220,10 @@
         newNavLink.classList.add('popup-box');
         newNavLink.textContent = categoryName;
         newNavItem.appendChild(newNavLink);
-        document.querySelector('.nav__cat ul').appendChild(newNavItem);
+
+        // Insert the new category before the add category section
+        var addCategorySection = document.querySelector('.nav__cat .add-category');
+        addCategorySection.parentNode.insertBefore(newNavItem, addCategorySection);
 
         // Create new popup for the category
         var newPopup = document.createElement('div');
@@ -223,7 +236,7 @@
                                   </ul>
                                   <div class="popup-footer">
                                       <input type="text" id="new${categoryName}Task" placeholder="New Task">
-                                      <button onclick="addTask('${categoryName}')">Add Task</button>
+                                      <button onclick="addTaskToGrocery('${categoryName}')">Add Task</button>
                                   </div>
                               </div>`;
 
@@ -236,6 +249,33 @@
         addPopupEventListeners();
     }
 }
+
+function addTaskToGrocery(categoryName) {
+    var taskInput = document.getElementById('new' + categoryName + 'Task');
+    var task = taskInput.value;
+    if (task.trim() !== '') {
+        // Add the task to the Grocery list
+        var li = document.createElement('li');
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                li.style.textDecoration = 'line-through';
+            } else {
+                li.style.textDecoration = 'none';
+            }
+        });
+
+        li.appendChild(checkbox);
+        var text = document.createTextNode(' ' + task);
+        li.appendChild(text);
+        document.getElementById('groceryTaskList').appendChild(li);
+        taskInput.value = ''; // Clear the input
+    }
+}
+
+// ... rest of your JavaScript functions ...
+
 
 function addTask(categoryName) {
     var taskInput = document.getElementById('new' + categoryName + 'Task');
